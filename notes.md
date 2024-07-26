@@ -12,6 +12,7 @@ Call pytest
 - `pytest`  
 - `pytest -v` - verbose
 - `pytest -h` - see documentation
+- `pytest -s` - see STDOUT including `print()` results
 
 Configuration file  
 `pytest.ini`
@@ -72,6 +73,44 @@ class BodyTests:
 
 See all markers, includes documented markers in `pytest.ini`  
 `pytest --markers`
+
+
+## Test fixtures
+
+`conftest.py`
+- any fixture that's created in this file becomes accessible in the directory that the file resides in, and any directory below it
+- no need to import said fixtures (saves code)
+
+`@fixture(scope="function")`
+- default scope is the function decorated (lowest-level that can be scoped in pytest)
+- `scope="session"` - one fixture to use for the duration of the test session no matter how many times the fixture is being called
+- e.g.
+```python
+from pytest import fixture
+from selenium import webdriver
+
+@fixture(scope="function")
+def chrome_browser():
+    browser = webdriver.Chrome()
+    return browser
+```
+- usage e.g.
+```python
+@def test_something(chrome_browser):
+    chrome_browser.get("www.example.com")
+    assert True
+```
+- fixture can also  handle its own teardown; use `yield`
+
+```python
+@fixture(scope="function")
+def chrome_browser():
+    browser = webdriver.Chrome()
+    yield browser
+
+    # check teardown
+    print("I am tearing down this browser")
+```
 
 # Reference
 - [Pytest Documentation](https://docs.pytest.org)
