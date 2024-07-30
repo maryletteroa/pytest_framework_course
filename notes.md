@@ -112,6 +112,22 @@ def chrome_browser():
     print("I am tearing down this browser")
 ```
 
+## Test Report and History
+
+Generate html report  
+
+`pip install pytest-html`  
+
+e.g. Usage:  
+`pytest --html="results.html"`  
+
+Built in in Pytest, generates xml. Can be integrated into CI/CD such as Jenkins  
+`pytest --junitxml="results.xml"`
+
+
+
+
+
 # Reference
 - [Pytest Documentation](https://docs.pytest.org)
 - [Elegant Automaton Frameworks with Python and Pytest](https://www.udemy.com/course/elegant-automation-frameworks-with-python-and-pytest)
